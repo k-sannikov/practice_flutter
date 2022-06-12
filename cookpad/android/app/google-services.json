@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1041009164505",
+    "project_id": "cookpad-363ef",
+    "storage_bucket": "cookpad-363ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041009164505:android:b808be23178445abecbec8",
+        "android_client_info": {
+          "package_name": "com.example.cookpad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041009164505-79dvcu57irefnu92kl9ia488sakb95bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYarjPhgUCYllO7uQI5CP3BlawbiXW42U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041009164505-79dvcu57irefnu92kl9ia488sakb95bp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

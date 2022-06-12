@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'carousel.dart';
-import 'model/products_repository.dart';
-
+import 'item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +10,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  void initFirebase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
+
   @override
   Widget build(BuildContext context) {
+    initFirebase();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -32,8 +38,24 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
-        child: Carousel(products: ProductsRepository.loadProducts(),),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('items').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Text('Нет записей');
+          }
+          return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Item(
+                  authorName: snapshot.data!.docs[index].get('authorName'),
+                  authorPreview: snapshot.data!.docs[index].get('authorPreview'),
+                  productName: snapshot.data!.docs[index].get('productName'),
+                  productPreview: snapshot.data!.docs[index].get('productPreview'),
+                );
+              });
+        },
       ),
     );
   }
