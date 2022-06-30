@@ -5,7 +5,7 @@ class Button extends StatelessWidget {
       : super(key: key);
 
   final String text;
-  final Function() handler;
+  final VoidCallback handler;
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ class AuthForm extends StatelessWidget {
       : super(key: key);
 
   final String text;
-  final Function() handler;
+  final VoidCallback handler;
   final TextEditingController emailController;
   final TextEditingController passwordController;
 

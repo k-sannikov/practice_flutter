@@ -33,8 +33,7 @@ class _TaskListPageState extends State<TaskListPage> {
                     TaskManager.addTask(user.uid, _userTask!);
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Добавить')
-              )
+                  child: const Text('Добавить'))
             ],
           );
         });
@@ -42,7 +41,6 @@ class _TaskListPageState extends State<TaskListPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final User user = Provider.of<User?>(context)!;
 
     return Scaffold(
@@ -52,9 +50,9 @@ class _TaskListPageState extends State<TaskListPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: AuthService().logOut
-          ),
+              icon: const Icon(Icons.sunny_snowing), onPressed: () => Navigator.of(context).pushNamed('/weather')),
+          IconButton(
+              icon: const Icon(Icons.logout), onPressed: AuthService().logOut),
         ],
       ),
       body: StreamBuilder(
@@ -64,8 +62,11 @@ class _TaskListPageState extends State<TaskListPage> {
             .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if(!snapshot.hasData) {
-            return const SizedBox.shrink();
+          if (!snapshot.hasData) {
+            return const Text(
+              'Загрузка...',
+              style: TextStyle(fontSize: 20),
+            );
           }
           var task = snapshot.requireData.docs;
           return ListView.builder(
@@ -81,8 +82,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           Icons.delete,
                           color: Colors.deepOrange,
                         ),
-                        onPressed: () =>
-                            TaskManager.deleteTask(task[index].id),
+                        onPressed: () => TaskManager.deleteTask(task[index].id),
                       ),
                     ),
                   ),

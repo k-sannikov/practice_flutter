@@ -12,7 +12,6 @@ class AuthorizationPage extends StatefulWidget {
 }
 
 class _AuthorizationPageState extends State<AuthorizationPage> {
-
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
@@ -87,57 +86,55 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          (showLogin
-              ? Column(
-                  children: [
-                    AuthForm(
-                      text: 'Войти',
-                      handler: _loginButtonAction,
-                      emailController: _emailController,
-                      passwordController: _passwordController,
+        backgroundColor: Colors.grey[300],
+        body: (showLogin
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AuthForm(
+                    text: 'Войти',
+                    handler: _loginButtonAction,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: GestureDetector(
+                      child: const Text('Регистрация',
+                          style: TextStyle(fontSize: 20, color: Colors.grey)),
+                      onTap: () {
+                        setState(() {
+                          showLogin = false;
+                        });
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: GestureDetector(
-                        child: const Text('Регистрация',
-                            style: TextStyle(fontSize: 20, color: Colors.grey)),
-                        onTap: () {
-                          setState(() {
-                            showLogin = false;
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                )
-              : Column(
-                  children: [
-                    AuthForm(
-                      text: 'Зарегистрироваться',
-                      handler: _registerButtonAction,
-                      emailController: _emailController,
-                      passwordController: _passwordController,
+                  )
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AuthForm(
+                    text: 'Зарегистрироваться',
+                    handler: _registerButtonAction,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: GestureDetector(
+                      child: const Text('Авторизация',
+                          style: TextStyle(fontSize: 20, color: Colors.grey)),
+                      onTap: () {
+                        setState(() {
+                          showLogin = true;
+                        });
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: GestureDetector(
-                        child: const Text('Авторизация',
-                            style: TextStyle(fontSize: 20, color: Colors.grey)),
-                        onTap: () {
-                          setState(() {
-                            showLogin = true;
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ))
-        ],
-      ),
+                  )
+                ],
+              )
+        )
     );
   }
 }
