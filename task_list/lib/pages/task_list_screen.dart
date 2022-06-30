@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:task_list/services/auth.dart';
+import '../services/task_manager.dart';
 
 class TaskListPage extends StatefulWidget {
   const TaskListPage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _TaskListPageState extends State<TaskListPage> {
   String? _userTask;
 
   void _dialogOpen(User user) {
-    showDialog(
+    showDialog<void>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -29,7 +30,7 @@ class _TaskListPageState extends State<TaskListPage> {
             actions: [
               ElevatedButton(
                   onPressed: () {
-                    _addTask(user.uid, _userTask!);
+                    TaskManager.addTask(user.uid, _userTask!);
                     Navigator.of(context).pop();
                   },
                   child: const Text('Добавить')
@@ -37,14 +38,6 @@ class _TaskListPageState extends State<TaskListPage> {
             ],
           );
         });
-  }
-
-  void _addTask(String userId, String task) async {
-    FirebaseFirestore.instance.collection('tasks').add({'userId': userId, 'task': task, 'timestamp': DateTime.now().millisecondsSinceEpoch});
-  }
-
-  void _deleteTask(String id) {
-    FirebaseFirestore.instance.collection('tasks').doc(id).delete();
   }
 
   @override
@@ -73,9 +66,8 @@ class _TaskListPageState extends State<TaskListPage> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if(!snapshot.hasData) {
             return const SizedBox.shrink();
-            // const Text('123');
           }
-          var task = snapshot.data!.docs;
+          var task = snapshot.requireData.docs;
           return ListView.builder(
               itemCount: task.length,
               itemBuilder: (BuildContext context, int index) {
@@ -90,12 +82,12 @@ class _TaskListPageState extends State<TaskListPage> {
                           color: Colors.deepOrange,
                         ),
                         onPressed: () =>
-                            _deleteTask(task[index].id),
+                            TaskManager.deleteTask(task[index].id),
                       ),
                     ),
                   ),
                   onDismissed: (direction) =>
-                      _deleteTask(task[index].id),
+                      TaskManager.deleteTask(task[index].id),
                 );
               });
         },
